@@ -1,8 +1,8 @@
-import FakeUsersRepository from '../repositories/fake/FakeUsersRepository';
-import FakeUserTokenRepository from '../repositories/fake/FakeUserTokenRepository';
-import ResetPasswordService from './ResetPasswordService';
-import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import AppError from '@errors/AppError';
+import FakeHashProvider from '@providers/hash/impl/FakeHashProvider';
+import FakeUsersRepository from '@repositories/fakes/FakeUsersRepository';
+import FakeUserTokenRepository from '@repositories/fakes/FakeUserTokenRepository';
+import ResetPasswordService from '@services/ResetPasswordService';
 
 let fakeUserRepository: FakeUsersRepository;
 let fakeUserTokenRepository: FakeUserTokenRepository;

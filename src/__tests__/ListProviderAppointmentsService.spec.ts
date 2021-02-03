@@ -1,6 +1,6 @@
-import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
-import FakeAppointmentRepository from '../repositories/fakes/FakeAppointmentsRepository';
-import ListProviderAppointmentsService from './ListProviderAppointmentsService';
+import FakeCacheProvider from '@providers/cache/impl/FakeCacheProvider';
+import FakeAppointmentRepository from '@repositories/fakes/FakeAppointmentsRepository';
+import ListProviderAppointmentsService from '@services/ListProviderAppointmentsService';
 
 let appointmentsRepository: FakeAppointmentRepository;
 let listProviderAppointments: ListProviderAppointmentsService;

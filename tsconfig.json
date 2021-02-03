@@ -37,7 +37,7 @@
       ],
       "@database/*": [
         "database/*"
-      ],
+      ]
     },
     "esModuleInterop": true,
     "experimentalDecorators": true,

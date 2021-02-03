@@ -1,6 +1,6 @@
 import AppError from '@errors/AppError';
-import FakeUsersRepository from '../repositories/fake/FakeUsersRepository';
-import ShowUserService from './ShowUserService';
+import FakeUsersRepository from '@repositories/fakes/FakeUsersRepository';
+import ShowUserService from '@services/ShowUserService';
 
 let userRepository: FakeUsersRepository;
 let showUserService: ShowUserService;

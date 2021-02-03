@@ -1,5 +1,5 @@
-import FakeNotificationsRepository from '../repositories/fakes/FakeNotificationsRepository';
-import CreateNotificationService from './CreateNotificationService';
+import FakeNotificationsRepository from '@repositories/fakes/FakeNotificationsRepository';
+import CreateNotificationService from '@services/CreateNotificationService';
 
 let notificationsRepository: FakeNotificationsRepository;
 let createNotification: CreateNotificationService;

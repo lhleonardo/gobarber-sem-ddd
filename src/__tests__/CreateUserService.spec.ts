@@ -1,9 +1,9 @@
-import FakeUsersRepository from '../repositories/fake/FakeUsersRepository';
-import CreateUserService from './CreateUserService';
-import ICreateUserDTO from '../dtos/ICreateUserDTO';
 import AppError from '@errors/AppError';
-import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
-import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
+import FakeCacheProvider from '@providers/cache/impl/FakeCacheProvider';
+import FakeHashProvider from '@providers/hash/impl/FakeHashProvider';
+import ICreateUserDTO from '@repositories/dtos/ICreateUserDTO';
+import FakeUsersRepository from '@repositories/fakes/FakeUsersRepository';
+import CreateUserService from '@services/CreateUserService';
 
 let fakeRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;

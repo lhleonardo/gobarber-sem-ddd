@@ -1,10 +1,9 @@
 // PRECISA estar antes do serviço para não tentar injeção
-import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
-
-import CreateAppointmentService from './CreateAppointmentService';
 import AppError from '@errors/AppError';
+import FakeCacheProvider from '@providers/cache/impl/FakeCacheProvider';
+import FakeAppointmentsRepository from '@repositories/fakes/FakeAppointmentsRepository';
 import FakeNotificationsRepository from '@repositories/fakes/FakeNotificationsRepository';
-import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
+import CreateAppointmentService from '@services/CreateAppointmentService';
 
 let service: CreateAppointmentService;
 let notificationsRepository: FakeNotificationsRepository;

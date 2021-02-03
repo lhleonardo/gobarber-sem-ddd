@@ -1,6 +1,6 @@
-import FakeUsersRepository from '@modules/users/repositories/fake/FakeUsersRepository';
-import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
-import ListProviderServices from './ListProvidersService';
+import FakeCacheProvider from '@providers/cache/impl/FakeCacheProvider';
+import FakeUsersRepository from '@repositories/fakes/FakeUsersRepository';
+import ListProviderServices from '@services/ListProvidersService';
 
 let userRepository: FakeUsersRepository;
 let listProviders: ListProviderServices;
