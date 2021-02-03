@@ -1,11 +1,11 @@
-import { startOfHour, isBefore, getHours, format } from 'date-fns';
+import AppError from '@errors/AppError';
+import Appointment from '@models/Appointment';
+import ICacheProvider from '@providers/cache/ICacheProvider';
+import IAppointmentRepository from '@repositories/IAppointmentRepository';
+import INotificationsRepository from '@repositories/INotificationsRepository';
+import { format, getHours, isBefore, startOfHour } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
-import AppError from '@shared/errors/AppError';
-import IAppointmentRepository from '@modules/appointments/repositories/IAppointmentRepository';
-import { injectable, inject } from 'tsyringe';
-import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
-import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   providerId: string;
@@ -24,7 +24,7 @@ export default class CreateAppointmentService {
 
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
-  ) {}
+  ) { }
 
   public async execute({
     providerId,

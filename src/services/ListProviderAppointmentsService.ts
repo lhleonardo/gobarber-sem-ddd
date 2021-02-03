@@ -1,8 +1,8 @@
-import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import Appointment from '@models/Appointment';
+import ICacheProvider from '@providers/cache/ICacheProvider';
+import IAppointmentRepository from '@repositories/IAppointmentRepository';
 import { classToClass } from 'class-transformer';
 import { inject, injectable } from 'tsyringe';
-import Appointment from '../infra/typeorm/entities/Appointment';
-import IAppointmentRepository from '../repositories/IAppointmentRepository';
 
 interface IRequest {
   providerId: string;
@@ -19,7 +19,7 @@ class ListProviderAppointmentsService {
 
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
-  ) {}
+  ) { }
 
   public async execute({
     providerId,

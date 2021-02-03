@@ -1,6 +1,6 @@
+import IAppointmentRepository from '@repositories/IAppointmentRepository';
 import { getHours, isAfter } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
-import IAppointmentRepository from '../repositories/IAppointmentRepository';
 
 interface IRequest {
   providerId: string;
@@ -19,7 +19,7 @@ class ListProviderDayAvailabilityService {
   constructor(
     @inject('AppointmentRepository')
     private appointmentsRepository: IAppointmentRepository,
-  ) {}
+  ) { }
   public async execute({
     providerId,
     day,

@@ -2,7 +2,6 @@ import config from '@config/upload';
 import UserAvatarController from '@controllers/users/UserAvatarController';
 import UsersController from '@controllers/users/UsersController';
 import ensureAuthentication from '@middlewares/ensureAuthentication';
-
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import multer from 'multer';

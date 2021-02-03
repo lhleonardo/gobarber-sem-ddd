@@ -8,9 +8,36 @@
     "strictPropertyInitialization": false,
     "baseUrl": "./src",
     "paths": {
-      "@modules/*": ["modules/*"],
-      "@config/*": ["config/*"],
-      "@shared/*": ["shared/*"]
+      "@config/*": [
+        "config/*"
+      ],
+      "@controllers/*": [
+        "controllers/*"
+      ],
+      "@services/*": [
+        "services/*"
+      ],
+      "@errors/*": [
+        "errors/*"
+      ],
+      "@models/*": [
+        "models/*"
+      ],
+      "@repositories/*": [
+        "repositories/*"
+      ],
+      "@middlewares/*": [
+        "middlewares/*"
+      ],
+      "@providers/*": [
+        "providers/*"
+      ],
+      "@routes/*": [
+        "routes/*"
+      ],
+      "@database/*": [
+        "database/*"
+      ],
     },
     "esModuleInterop": true,
     "experimentalDecorators": true,

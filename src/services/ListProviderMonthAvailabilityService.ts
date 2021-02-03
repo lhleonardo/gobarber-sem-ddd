@@ -1,6 +1,6 @@
-import { getDate, getDaysInMonth, isBefore, endOfDay } from 'date-fns';
+import IAppointmentRepository from '@repositories/IAppointmentRepository';
+import { endOfDay, getDate, getDaysInMonth, isBefore } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
-import IAppointmentRepository from '../repositories/IAppointmentRepository';
 
 interface IRequest {
   providerId: string;
@@ -18,7 +18,7 @@ export default class ListProviderMonthAvailabilityService {
   constructor(
     @inject('AppointmentRepository')
     private appointmentRepository: IAppointmentRepository,
-  ) {}
+  ) { }
   public async execute({
     providerId,
     month,

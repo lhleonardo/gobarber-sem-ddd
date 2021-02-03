@@ -1,7 +1,7 @@
-import IFindAllProvidersDTO from '@modules/users/dtos/IFindAllProvidersDTO';
-import User from '@modules/users/infra/typeorm/entities/User';
-import IUserRepository from '@modules/users/repositories/IUserRepository';
-import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import User from '@models/User';
+import IFindAllProvidersDTO from '@repositories/dtos/IFindAllProvidersDTO';
+import IUserRepository from '@repositories/IUserRepository';
+import ICacheProvider from '@providers/cache/ICacheProvider';
 import { classToClass } from 'class-transformer';
 import { inject, injectable } from 'tsyringe';
 
@@ -13,7 +13,7 @@ class ListProviderServices {
 
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
-  ) {}
+  ) { }
 
   public async execute({
     excludeUserId,
