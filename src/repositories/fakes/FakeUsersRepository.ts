@@ -1,9 +1,9 @@
-import IUserRepository from '../IUserRepository';
-import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
-import User from '@modules/users/infra/typeorm/entities/User';
-
+import User from '@models/User';
 import { v4 as uuid } from 'uuid';
-import IFindAllProvidersDTO from '@modules/users/dtos/IFindAllProvidersDTO';
+import ICreateUserDTO from '../dtos/ICreateUserDTO';
+import IFindAllProvidersDTO from '../dtos/IFindAllProvidersDTO';
+import IUserRepository from '../IUserRepository';
+
 
 class FakeUsersRepository implements IUserRepository {
   private users: User[] = [];

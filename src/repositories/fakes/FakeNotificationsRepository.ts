@@ -1,6 +1,6 @@
-import ICreateNotificationDTO from '@modules/notifications/dtos/ICreateNotificationDTO';
-import Notification from '@modules/notifications/infra/typeorm/schemas/Notification';
+import Notification from '@models/Notification';
 import { ObjectID } from 'mongodb';
+import ICreateNotificationDTO from '../dtos/ICreateNotificationDTO';
 import INotificationsRepository from '../INotificationsRepository';
 
 export default class FakeNotificationsRepository

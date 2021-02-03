@@ -1,11 +1,11 @@
-import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
-import IAppointmentRepository from '@modules/appointments/repositories/IAppointmentRepository';
-import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointmentDTO';
 
-import { v4 as uuid } from 'uuid';
+import Appointment from '@models/Appointment';
 import { getDate, getMonth, getYear, isEqual } from 'date-fns';
-import IFindAppointmentsInMonthDTO from '@modules/appointments/dtos/IFIndAppointmentsInMonthDTO';
-import IFindAllAppointmentInDay from '@modules/appointments/dtos/IFindAllAppointmentInDay';
+import { v4 as uuid } from 'uuid';
+import ICreateAppointmentDTO from '../dtos/ICreateAppointmentDTO';
+import IFindAllAppointmentInDay from '../dtos/IFindAllAppointmentInDay';
+import IFindAppointmentsInMonthDTO from '../dtos/IFIndAppointmentsInMonthDTO';
+import IAppointmentRepository from '../IAppointmentRepository';
 
 export default class FakeAppointmentRepository
   implements IAppointmentRepository {

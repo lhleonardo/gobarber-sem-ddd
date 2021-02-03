@@ -1,8 +1,8 @@
-import IUserRepository from '@modules/users/repositories/IUserRepository';
-import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
-import User from '../entities/User';
-import { Repository, getRepository, Not } from 'typeorm';
-import IFindAllProvidersDTO from '@modules/users/dtos/IFindAllProvidersDTO';
+import User from '@models/User';
+import ICreateUserDTO from '@repositories/dtos/ICreateUserDTO';
+import IFindAllProvidersDTO from '@repositories/dtos/IFindAllProvidersDTO';
+import IUserRepository from '@repositories/IUserRepository';
+import { getRepository, Not, Repository } from 'typeorm';
 
 class UserRepository implements IUserRepository {
   private ormRepository: Repository<User>;

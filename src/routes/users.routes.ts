@@ -1,12 +1,11 @@
+import config from '@config/upload';
+import UserAvatarController from '@controllers/users/UserAvatarController';
+import UsersController from '@controllers/users/UsersController';
+import ensureAuthentication from '@middlewares/ensureAuthentication';
+
+import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import multer from 'multer';
-
-import ensureAuthentication from '../middlewares/ensureAuthentication';
-
-import config from '@config/upload';
-import { celebrate, Segments, Joi } from 'celebrate';
-import UsersController from '../controllers/UsersController';
-import UserAvatarController from '../controllers/UserAvatarController';
 
 const routes = Router();
 const upload = multer(config.multer);

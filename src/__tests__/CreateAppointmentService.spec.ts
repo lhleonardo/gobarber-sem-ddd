@@ -2,7 +2,7 @@
 import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
 
 import CreateAppointmentService from './CreateAppointmentService';
-import AppError from '@shared/errors/AppError';
+import AppError from '@errors/AppError';
 import FakeNotificationsRepository from '@modules/notifications/repositories/fakes/FakeNotificationsRepository';
 import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 
 import { verify } from 'jsonwebtoken';
 import config from '@config/auth';
-import AppError from '@shared/errors/AppError';
+import AppError from '@errors/AppError';
 
 // formato do token decodificado
 interface TokenPayload {

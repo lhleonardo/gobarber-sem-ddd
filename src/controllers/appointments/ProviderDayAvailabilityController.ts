@@ -1,4 +1,4 @@
-import ListProviderDayAvailabilityService from '@modules/appointments/services/ListProviderDayAvailabilityService';
+import ListProviderDayAvailabilityService from '@services/ListProviderDayAvailabilityService';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 

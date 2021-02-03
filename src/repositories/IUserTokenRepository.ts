@@ -1,4 +1,4 @@
-import UserToken from '../infra/typeorm/entities/UserToken';
+import UserToken from '@models/UserToken';
 
 export default interface IUserTokenRepository {
   generate(userId: string): Promise<UserToken>;

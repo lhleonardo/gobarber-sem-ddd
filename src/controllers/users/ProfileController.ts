@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
 import { classToClass } from 'class-transformer';
-import ShowUserService from '@modules/users/services/ShowUserService';
-import UpdateUserService from '@modules/users/services/UpdateUserService';
+import ShowUserService from '@services/ShowUserService';
+import UpdateUserService from '@services/UpdateUserService';
 
 export default class ProfileController {
   async show(request: Request, response: Response): Promise<Response> {

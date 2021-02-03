@@ -1,4 +1,4 @@
-import ListProviderMonthAvailabilityService from '@modules/appointments/services/ListProviderMonthAvailabilityService';
+import ListProviderMonthAvailabilityService from '@services/ListProviderMonthAvailabilityService';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 

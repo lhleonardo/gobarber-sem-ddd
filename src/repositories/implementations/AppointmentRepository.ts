@@ -1,9 +1,9 @@
-import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
-import IAppointmentRepository from '@modules/appointments/repositories/IAppointmentRepository';
-import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointmentDTO';
-import { Repository, getRepository, Raw } from 'typeorm';
-import IFindAppointmentsInMonthDTO from '@modules/appointments/dtos/IFIndAppointmentsInMonthDTO';
-import IFindAllAppointmentInDay from '@modules/appointments/dtos/IFindAllAppointmentInDay';
+import Appointment from '@models/Appointment';
+import ICreateAppointmentDTO from '@repositories/dtos/ICreateAppointmentDTO';
+import IFindAllAppointmentInDay from '@repositories/dtos/IFindAllAppointmentInDay';
+import IFindAppointmentsInMonthDTO from '@repositories/dtos/IFIndAppointmentsInMonthDTO';
+import IAppointmentRepository from '@repositories/IAppointmentRepository';
+import { getRepository, Raw, Repository } from 'typeorm';
 
 export default class AppointmentRepository implements IAppointmentRepository {
   private ormRepository: Repository<Appointment>;
