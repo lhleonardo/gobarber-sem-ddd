@@ -1,14 +1,20 @@
 import AppError from '@errors/AppError';
+import ICacheProvider from '@providers/cache/ICacheProvider';
+import IHashProvider from '@providers/hash/IHashProvider';
 import FakeUsersRepository from '@repositories/fakes/FakeUsersRepository';
-import ShowUserService from '@services/ShowUserService';
+import UserService from '@services/user.service';
 
 let userRepository: FakeUsersRepository;
-let showUserService: ShowUserService;
+let showUserService: UserService;
 
 describe('ShowUserService', () => {
   beforeEach(() => {
     userRepository = new FakeUsersRepository();
-    showUserService = new ShowUserService(userRepository);
+    showUserService = new UserService(
+      userRepository,
+      {} as IHashProvider,
+      {} as ICacheProvider,
+    );
   });
   it('Deve mostrar os dados do usuário logado', async () => {
     const loggedUser = await userRepository.create({
@@ -17,15 +23,15 @@ describe('ShowUserService', () => {
       password: '123123',
     });
 
-    const user = await showUserService.execute(loggedUser.id);
+    const user = await showUserService.get(loggedUser.id);
 
     expect(user.name).toBe(loggedUser.name);
     expect(user.email).toBe(loggedUser.email);
   });
 
   it('Não deve mostrar dados de um usuário inexistente', async () => {
-    await expect(
-      showUserService.execute('wrong-user-id'),
-    ).rejects.toBeInstanceOf(AppError);
+    await expect(showUserService.get('wrong-user-id')).rejects.toBeInstanceOf(
+      AppError,
+    );
   });
 });

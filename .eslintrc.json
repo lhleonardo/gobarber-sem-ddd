@@ -23,6 +23,8 @@
   "rules": {
     "no-useless-constructor": "off",
     "import/no-duplicates": "off",
+    "no-await-in-loop": "off",
+    "no-plusplus": "off",
     "prettier/prettier": "error",
     "class-methods-use-this": "off",
     "@typescript-eslint/camelcase": "off",

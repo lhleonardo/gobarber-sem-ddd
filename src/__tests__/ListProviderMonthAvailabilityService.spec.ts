@@ -1,13 +1,17 @@
+import ICacheProvider from '@providers/cache/ICacheProvider';
 import FakeAppointmentRepository from '@repositories/fakes/FakeAppointmentsRepository';
-import ListProviderMonthAvailabilityService from '@services/ListProviderMonthAvailabilityService';
+import IUserRepository from '@repositories/IUserRepository';
+import ProviderService from '@services/provider.service';
 
 let appointmentsRepository: FakeAppointmentRepository;
-let listProviderMonthAvailability: ListProviderMonthAvailabilityService;
+let listProviderMonthAvailability: ProviderService;
 
 describe('ListProviderMonthAvailability', () => {
   beforeEach(() => {
     appointmentsRepository = new FakeAppointmentRepository();
-    listProviderMonthAvailability = new ListProviderMonthAvailabilityService(
+    listProviderMonthAvailability = new ProviderService(
+      {} as IUserRepository,
+      {} as ICacheProvider,
       appointmentsRepository,
     );
   });
@@ -29,11 +33,13 @@ describe('ListProviderMonthAvailability', () => {
       });
     }
 
-    const availability = await listProviderMonthAvailability.execute({
-      providerId: 'valid-provider-user',
-      month: 5,
-      year: 2020,
-    });
+    const availability = await listProviderMonthAvailability.findByMonthAvailability(
+      {
+        providerId: 'valid-provider-user',
+        month: 5,
+        year: 2020,
+      },
+    );
 
     expect(availability).toEqual(
       expect.arrayContaining([

@@ -1,17 +1,17 @@
 import AppError from '@errors/AppError';
 import FakeStorageProvider from '@providers/storage/impl/FakeStorageProvider';
 import FakeUsersRepository from '@repositories/fakes/FakeUsersRepository';
-import UpdateUserAvatarService from '@services/UpdateUserAvatarService';
+import AvatarService from '@services/avatar.service';
 
 let fakeStorage: FakeStorageProvider;
 let fakeRepository: FakeUsersRepository;
-let updateUserAvatar: UpdateUserAvatarService;
+let updateUserAvatar: AvatarService;
 
 describe('Update Avatar', () => {
   beforeEach(() => {
     fakeStorage = new FakeStorageProvider();
     fakeRepository = new FakeUsersRepository();
-    updateUserAvatar = new UpdateUserAvatarService(fakeRepository, fakeStorage);
+    updateUserAvatar = new AvatarService(fakeRepository, fakeStorage);
   });
   it('Deve atualizar a foto de perfil', async () => {
     const user = await fakeRepository.create({
@@ -20,7 +20,7 @@ describe('Update Avatar', () => {
       password: '123456',
     });
 
-    const response = await updateUserAvatar.execute({
+    const response = await updateUserAvatar.updateAvatar({
       userId: user.id,
       avatarFilename: 'avatar.png',
     });
@@ -30,7 +30,7 @@ describe('Update Avatar', () => {
 
   it('Não deve atualizar avatar de usuário inválido', async () => {
     await expect(
-      updateUserAvatar.execute({
+      updateUserAvatar.updateAvatar({
         userId: 'invalid_user_id',
         avatarFilename: 'avatar.png',
       }),
@@ -46,12 +46,12 @@ describe('Update Avatar', () => {
       password: '123456',
     });
 
-    await updateUserAvatar.execute({
+    await updateUserAvatar.updateAvatar({
       userId: user.id,
       avatarFilename: 'avatar.png',
     });
 
-    await updateUserAvatar.execute({
+    await updateUserAvatar.updateAvatar({
       userId: user.id,
       avatarFilename: 'avatar_2.png',
     });

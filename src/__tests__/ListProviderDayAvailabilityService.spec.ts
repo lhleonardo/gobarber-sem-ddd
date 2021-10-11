@@ -1,13 +1,17 @@
+import ICacheProvider from '@providers/cache/ICacheProvider';
 import FakeAppointmentRepository from '@repositories/fakes/FakeAppointmentsRepository';
-import ListProviderDayAvailabilityService from '@services/ListProviderDayAvailabilityService';
+import IUserRepository from '@repositories/IUserRepository';
+import ProviderService from '@services/provider.service';
 
 let appointmentRepository: FakeAppointmentRepository;
-let listProviderDayAvailability: ListProviderDayAvailabilityService;
+let listProviderDayAvailability: ProviderService;
 
 describe('ListProviderDayAvailability', () => {
   beforeEach(() => {
     appointmentRepository = new FakeAppointmentRepository();
-    listProviderDayAvailability = new ListProviderDayAvailabilityService(
+    listProviderDayAvailability = new ProviderService(
+      {} as IUserRepository,
+      {} as ICacheProvider,
       appointmentRepository,
     );
   });
@@ -46,12 +50,14 @@ describe('ListProviderDayAvailability', () => {
       date: new Date(2020, 3, 15, 16, 0, 0),
     });
 
-    const availability = await listProviderDayAvailability.execute({
-      providerId: 'valid-provider-id',
-      day: 15,
-      month: 4,
-      year: 2020,
-    });
+    const availability = await listProviderDayAvailability.findByDayAvailability(
+      {
+        providerId: 'valid-provider-id',
+        day: 15,
+        month: 4,
+        year: 2020,
+      },
+    );
 
     expect(availability).toEqual(
       expect.arrayContaining([

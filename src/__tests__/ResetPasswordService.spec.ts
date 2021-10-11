@@ -1,23 +1,25 @@
 import AppError from '@errors/AppError';
 import FakeHashProvider from '@providers/hash/impl/FakeHashProvider';
+import IMailProvider from '@providers/mail/IMailProvider';
 import FakeUsersRepository from '@repositories/fakes/FakeUsersRepository';
 import FakeUserTokenRepository from '@repositories/fakes/FakeUserTokenRepository';
-import ResetPasswordService from '@services/ResetPasswordService';
+import AuthService from '@services/auth.service';
 
 let fakeUserRepository: FakeUsersRepository;
 let fakeUserTokenRepository: FakeUserTokenRepository;
 let fakeHashProvider: FakeHashProvider;
-let resetPassword: ResetPasswordService;
+let resetPassword: AuthService;
 
 describe('Reset Password', () => {
   beforeEach(() => {
     fakeUserRepository = new FakeUsersRepository();
     fakeUserTokenRepository = new FakeUserTokenRepository();
     fakeHashProvider = new FakeHashProvider();
-    resetPassword = new ResetPasswordService(
+    resetPassword = new AuthService(
       fakeUserRepository,
-      fakeUserTokenRepository,
       fakeHashProvider,
+      {} as IMailProvider,
+      fakeUserTokenRepository,
     );
   });
   it('Deve redefinir a senha a partir de um token', async () => {
@@ -30,7 +32,7 @@ describe('Reset Password', () => {
 
     const { token } = await fakeUserTokenRepository.generate(user.id);
 
-    await resetPassword.execute({ token, password: '123123' });
+    await resetPassword.resetPassword({ token, password: '123123' });
 
     const updatedUser = await fakeUserRepository.findById(user.id);
 
@@ -40,7 +42,7 @@ describe('Reset Password', () => {
 
   it('Não deve redefinir a senha com token inválido', async () => {
     await expect(
-      resetPassword.execute({
+      resetPassword.resetPassword({
         token: 'blablabla',
         password: 'strong password here',
       }),
@@ -51,7 +53,7 @@ describe('Reset Password', () => {
     const resetData = await fakeUserTokenRepository.generate('user id');
 
     await expect(
-      resetPassword.execute({
+      resetPassword.resetPassword({
         token: resetData.token,
         password: 'strong password',
       }),
@@ -74,7 +76,7 @@ describe('Reset Password', () => {
     });
 
     await expect(
-      resetPassword.execute({ token, password: '123123' }),
+      resetPassword.resetPassword({ token, password: '123123' }),
     ).rejects.toBeInstanceOf(AppError);
   });
 });

@@ -3,9 +3,9 @@ import AppError from '@errors/AppError';
 import FakeCacheProvider from '@providers/cache/impl/FakeCacheProvider';
 import FakeAppointmentsRepository from '@repositories/fakes/FakeAppointmentsRepository';
 import FakeNotificationsRepository from '@repositories/fakes/FakeNotificationsRepository';
-import CreateAppointmentService from '@services/CreateAppointmentService';
+import AppointmentService from '@services/appointment.service';
 
-let service: CreateAppointmentService;
+let service: AppointmentService;
 let notificationsRepository: FakeNotificationsRepository;
 let cacheProvider: FakeCacheProvider;
 let appointmentsRepository: FakeAppointmentsRepository;
@@ -15,7 +15,7 @@ describe('CreateAppointment', () => {
     appointmentsRepository = new FakeAppointmentsRepository();
     notificationsRepository = new FakeNotificationsRepository();
     cacheProvider = new FakeCacheProvider();
-    service = new CreateAppointmentService(
+    service = new AppointmentService(
       appointmentsRepository,
       notificationsRepository,
       cacheProvider,
@@ -25,7 +25,7 @@ describe('CreateAppointment', () => {
     jest
       .spyOn(Date, 'now')
       .mockImplementationOnce(() => new Date(2020, 4, 13, 10).getTime());
-    const appointment = await service.execute({
+    const appointment = await service.create({
       date: new Date(2020, 4, 16, 9),
       userId: 'valid-user',
       providerId: 'provider-id',
@@ -42,14 +42,14 @@ describe('CreateAppointment', () => {
       .spyOn(Date, 'now')
       .mockImplementation(() => new Date(2020, 4, 13, 10).getTime());
 
-    await service.execute({
+    await service.create({
       date: appointmentDate,
       userId: 'valid-user',
       providerId: 'provider-id',
     });
 
     expect(
-      service.execute({
+      service.create({
         date: appointmentDate,
         providerId: 'provider-id',
         userId: 'valid-user',
@@ -63,7 +63,7 @@ describe('CreateAppointment', () => {
       .mockImplementationOnce(() => new Date(2020, 4, 13, 16).getTime());
 
     await expect(
-      service.execute({
+      service.create({
         date: new Date(2020, 4, 13, 11),
         providerId: 'provider-id',
         userId: 'valid-user',
@@ -77,14 +77,14 @@ describe('CreateAppointment', () => {
       .mockImplementationOnce(() => new Date(2020, 4, 12, 16).getTime());
 
     await expect(
-      service.execute({
+      service.create({
         date: new Date(2020, 4, 13, 7),
         providerId: 'provider-id',
         userId: 'valid-user',
       }),
     ).rejects.toBeInstanceOf(AppError);
     await expect(
-      service.execute({
+      service.create({
         date: new Date(2020, 4, 13, 18),
         providerId: 'provider-id',
         userId: 'valid-user',

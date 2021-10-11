@@ -1,13 +1,14 @@
 import AppError from '@errors/AppError';
+import IHashProvider from '@providers/hash/IHashProvider';
 import FakeMailProvider from '@providers/mail/impl/FakeMailProvider';
 import FakeUsersRepository from '@repositories/fakes/FakeUsersRepository';
 import FakeUserTokenRepository from '@repositories/fakes/FakeUserTokenRepository';
-import SendForgotPasswordEmailService from '@services/SendForgotPasswordEmailService';
+import AuthService from '@services/auth.service';
 
 let fakeUserRepository: FakeUsersRepository;
 let fakeUserTokenRepository: FakeUserTokenRepository;
 let fakeMailProvider: FakeMailProvider;
-let sendForgotPasswordEmail: SendForgotPasswordEmailService;
+let sendForgotPasswordEmail: AuthService;
 
 describe('Forgot Password', () => {
   beforeEach(() => {
@@ -15,9 +16,10 @@ describe('Forgot Password', () => {
     fakeMailProvider = new FakeMailProvider();
     fakeUserTokenRepository = new FakeUserTokenRepository();
 
-    sendForgotPasswordEmail = new SendForgotPasswordEmailService(
-      fakeMailProvider,
+    sendForgotPasswordEmail = new AuthService(
       fakeUserRepository,
+      {} as IHashProvider,
+      fakeMailProvider,
       fakeUserTokenRepository,
     );
   });
@@ -30,14 +32,18 @@ describe('Forgot Password', () => {
       password: '123456',
     });
 
-    await sendForgotPasswordEmail.execute({ email: 'lhleonardo@hotmail.com' });
+    await sendForgotPasswordEmail.forgotPassword({
+      email: 'lhleonardo@hotmail.com',
+    });
 
     expect(sendMail).toHaveBeenCalled();
   });
 
   it('Não deve permitir recuperar senha de usuário não cadastrado', async () => {
     await expect(
-      sendForgotPasswordEmail.execute({ email: 'lhleonardo@hotmail.com' }),
+      sendForgotPasswordEmail.forgotPassword({
+        email: 'lhleonardo@hotmail.com',
+      }),
     ).rejects.toBeInstanceOf(AppError);
   });
 
@@ -50,7 +56,9 @@ describe('Forgot Password', () => {
       password: '123456',
     });
 
-    await sendForgotPasswordEmail.execute({ email: 'lhleonardo@hotmail.com' });
+    await sendForgotPasswordEmail.forgotPassword({
+      email: 'lhleonardo@hotmail.com',
+    });
 
     expect(generateToken).toHaveBeenCalledWith(user.id);
   });

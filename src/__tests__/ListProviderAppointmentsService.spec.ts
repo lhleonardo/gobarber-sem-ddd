@@ -1,18 +1,20 @@
 import FakeCacheProvider from '@providers/cache/impl/FakeCacheProvider';
 import FakeAppointmentRepository from '@repositories/fakes/FakeAppointmentsRepository';
-import ListProviderAppointmentsService from '@services/ListProviderAppointmentsService';
+import IUserRepository from '@repositories/IUserRepository';
+import ProviderService from '@services/provider.service';
 
 let appointmentsRepository: FakeAppointmentRepository;
-let listProviderAppointments: ListProviderAppointmentsService;
+let listProviderAppointments: ProviderService;
 let cacheProvider: FakeCacheProvider;
 
 describe('ListProviderAppointments', () => {
   beforeEach(() => {
     appointmentsRepository = new FakeAppointmentRepository();
     cacheProvider = new FakeCacheProvider();
-    listProviderAppointments = new ListProviderAppointmentsService(
-      appointmentsRepository,
+    listProviderAppointments = new ProviderService(
+      {} as IUserRepository,
       cacheProvider,
+      appointmentsRepository,
     );
   });
   it('Deve mostrar os agendamentos de um determinado prestador', async () => {
@@ -50,7 +52,7 @@ describe('ListProviderAppointments', () => {
       userId: 'user-id',
     });
 
-    const appointments = await listProviderAppointments.execute({
+    const appointments = await listProviderAppointments.findByDayAvailability({
       providerId: 'provider-id',
       day: 15,
       month: 9,
@@ -85,7 +87,7 @@ describe('ListProviderAppointments', () => {
       userId: 'user-id',
     });
 
-    const appointments = await listProviderAppointments.execute({
+    const appointments = await listProviderAppointments.findByDayAvailability({
       providerId: 'another-provider-id',
       day: 15,
       month: 9,

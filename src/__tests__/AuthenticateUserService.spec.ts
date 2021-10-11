@@ -1,23 +1,30 @@
 import AppError from '@errors/AppError';
 import FakeCacheProvider from '@providers/cache/impl/FakeCacheProvider';
 import FakeHashProvider from '@providers/hash/impl/FakeHashProvider';
+import IMailProvider from '@providers/mail/IMailProvider';
 import FakeUsersRepository from '@repositories/fakes/FakeUsersRepository';
-import AuthenticateUserService from '@services/AuthenticateUserService';
-import CreateUserService from '@services/CreateUserService';
+import IUserTokenRepository from '@repositories/IUserTokenRepository';
+import AuthService from '@services/auth.service';
+import UserService from '@services/user.service';
 
 let fakeRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
 let fakeCacheProvider: FakeCacheProvider;
-let authUser: AuthenticateUserService;
-let createUser: CreateUserService;
+let authUser: AuthService;
+let createUser: UserService;
 
 describe('AuthenticationUser', () => {
   beforeEach(() => {
     fakeCacheProvider = new FakeCacheProvider();
     fakeRepository = new FakeUsersRepository();
     fakeHashProvider = new FakeHashProvider();
-    authUser = new AuthenticateUserService(fakeRepository, fakeHashProvider);
-    createUser = new CreateUserService(
+    authUser = new AuthService(
+      fakeRepository,
+      fakeHashProvider,
+      {} as IMailProvider,
+      {} as IUserTokenRepository,
+    );
+    createUser = new UserService(
       fakeRepository,
       fakeHashProvider,
       fakeCacheProvider,
@@ -25,13 +32,13 @@ describe('AuthenticationUser', () => {
   });
 
   it('Deve autenticar um usuário', async () => {
-    await createUser.execute({
+    await createUser.createUser({
       name: 'Leonardo Henrique de Braz',
       email: 'lhleonardo@hotmail.com',
       password: '123456',
     });
 
-    const user = await authUser.execute({
+    const user = await authUser.login({
       email: 'lhleonardo@hotmail.com',
       password: '123456',
     });
@@ -41,18 +48,18 @@ describe('AuthenticationUser', () => {
 
   it('Não deve se autenticar com usuário não cadastrado', async () => {
     await expect(
-      authUser.execute({ email: 'lhleonardo@hotmail.com', password: '123456' }),
+      authUser.login({ email: 'lhleonardo@hotmail.com', password: '123456' }),
     ).rejects.toBeInstanceOf(AppError);
   });
   it('Não deve se autenticar com credenciais inválidas', async () => {
-    await createUser.execute({
+    await createUser.createUser({
       name: 'Leonardo Henrique de Braz',
       email: 'lhleonardo@hotmail.com',
       password: '123456',
     });
 
     await expect(
-      authUser.execute({
+      authUser.login({
         email: 'lhleonardo@hotmail.com',
         password: '12345',
       }),

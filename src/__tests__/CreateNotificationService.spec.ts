@@ -1,18 +1,18 @@
 import FakeNotificationsRepository from '@repositories/fakes/FakeNotificationsRepository';
-import CreateNotificationService from '@services/CreateNotificationService';
+import NotificationService from '@services/notification.service';
 
 let notificationsRepository: FakeNotificationsRepository;
-let createNotification: CreateNotificationService;
+let createNotification: NotificationService;
 
 describe('NotificationService', () => {
   beforeEach(() => {
     notificationsRepository = new FakeNotificationsRepository();
-    createNotification = new CreateNotificationService(notificationsRepository);
+    createNotification = new NotificationService(notificationsRepository);
   });
   it('Deve criar uma notificação', async () => {
     const create = jest.spyOn(notificationsRepository, 'create');
 
-    await createNotification.execute({
+    await createNotification.create({
       recipientId: 'user-id',
       content: 'cool-message',
     });

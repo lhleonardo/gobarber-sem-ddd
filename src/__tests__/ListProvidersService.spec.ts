@@ -1,16 +1,21 @@
 import FakeCacheProvider from '@providers/cache/impl/FakeCacheProvider';
 import FakeUsersRepository from '@repositories/fakes/FakeUsersRepository';
-import ListProviderServices from '@services/ListProvidersService';
+import IAppointmentRepository from '@repositories/IAppointmentRepository';
+import ProviderService from '@services/provider.service';
 
 let userRepository: FakeUsersRepository;
-let listProviders: ListProviderServices;
+let listProviders: ProviderService;
 let cacheProvider: FakeCacheProvider;
 
 describe('ListProviders', () => {
   beforeEach(() => {
     userRepository = new FakeUsersRepository();
     cacheProvider = new FakeCacheProvider();
-    listProviders = new ListProviderServices(userRepository, cacheProvider);
+    listProviders = new ProviderService(
+      userRepository,
+      cacheProvider,
+      {} as IAppointmentRepository,
+    );
   });
   it('Deve listar todos os prestadores de serviço', async () => {
     const loggedUser = await userRepository.create({
@@ -28,7 +33,7 @@ describe('ListProviders', () => {
       email: 'maria@hotmail.com',
       password: '123123',
     });
-    const providers = await listProviders.execute({
+    const providers = await listProviders.getProviders({
       excludeUserId: loggedUser.id,
     });
 

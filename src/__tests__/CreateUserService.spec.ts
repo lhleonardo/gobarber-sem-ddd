@@ -3,26 +3,26 @@ import FakeCacheProvider from '@providers/cache/impl/FakeCacheProvider';
 import FakeHashProvider from '@providers/hash/impl/FakeHashProvider';
 import ICreateUserDTO from '@repositories/dtos/ICreateUserDTO';
 import FakeUsersRepository from '@repositories/fakes/FakeUsersRepository';
-import CreateUserService from '@services/CreateUserService';
+import UserService from '@services/user.service';
 
 let fakeRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
 let fakeCacheProvider: FakeCacheProvider;
-let service: CreateUserService;
+let service: UserService;
 
 describe('Create User', () => {
   beforeEach(() => {
     fakeCacheProvider = new FakeCacheProvider();
     fakeRepository = new FakeUsersRepository();
     fakeHashProvider = new FakeHashProvider();
-    service = new CreateUserService(
+    service = new UserService(
       fakeRepository,
       fakeHashProvider,
       fakeCacheProvider,
     );
   });
   it('Deve criar um novo usuário', async () => {
-    const createdUser = await service.execute({
+    const createdUser = await service.createUser({
       name: 'Leonardo Henrique de Braz',
       email: 'lhleonardo@hotmail.com',
       password: '123456',
@@ -38,8 +38,8 @@ describe('Create User', () => {
       password: '123456',
     };
 
-    await service.execute(user);
+    await service.createUser(user);
 
-    expect(service.execute(user)).rejects.toBeInstanceOf(AppError);
+    expect(service.createUser(user)).rejects.toBeInstanceOf(AppError);
   });
 });

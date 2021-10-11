@@ -1,23 +1,28 @@
 import AppError from '@errors/AppError';
+import ICacheProvider from '@providers/cache/ICacheProvider';
 import FakeHashProvider from '@providers/hash/impl/FakeHashProvider';
 import FakeUsersRepository from '@repositories/fakes/FakeUsersRepository';
-import UpdateUserService from '@services/UpdateUserService';
+import UserService from '@services/user.service';
 
 let userRepository: FakeUsersRepository;
 let hashProvider: FakeHashProvider;
-let updateUser: UpdateUserService;
+let updateUser: UserService;
 
 describe('Update User', () => {
   beforeEach(() => {
     userRepository = new FakeUsersRepository();
     hashProvider = new FakeHashProvider();
 
-    updateUser = new UpdateUserService(userRepository, hashProvider);
+    updateUser = new UserService(
+      userRepository,
+      hashProvider,
+      {} as ICacheProvider,
+    );
   });
 
   it('Não deve atualizar o perfil de um usuário inválido', async () => {
     await expect(
-      updateUser.execute('wrong-user-id', {
+      updateUser.update('wrong-user-id', {
         name: 'Leonardo Braz',
         email: 'lhleonardo@hotmail.com',
       }),
@@ -31,7 +36,7 @@ describe('Update User', () => {
       password: '123123',
     });
 
-    await updateUser.execute(createdUser.id, {
+    await updateUser.update(createdUser.id, {
       name: 'Leonardo Braz',
       email: 'lhleonardo05@gmail.com',
       oldPassword: '123123',
@@ -53,7 +58,7 @@ describe('Update User', () => {
     });
 
     await expect(
-      updateUser.execute(createdUser.id, {
+      updateUser.update(createdUser.id, {
         name: createdUser.name,
         email: createdUser.email,
         oldPassword: '1234',
@@ -70,7 +75,7 @@ describe('Update User', () => {
     });
 
     await expect(
-      updateUser.execute(createdUser.id, {
+      updateUser.update(createdUser.id, {
         name: createdUser.name,
         email: createdUser.email,
         password: '123123',
@@ -85,7 +90,7 @@ describe('Update User', () => {
       password: '123456',
     });
 
-    const updated = await updateUser.execute(createdUser.id, {
+    const updated = await updateUser.update(createdUser.id, {
       name: createdUser.name,
       email: createdUser.email,
       oldPassword: '123456',
@@ -108,7 +113,7 @@ describe('Update User', () => {
     });
 
     await expect(
-      updateUser.execute(user.id, {
+      updateUser.update(user.id, {
         name: 'Leonardo Braz',
         email: 'julia@gmail.com',
       }),
