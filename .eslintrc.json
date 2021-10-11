@@ -21,6 +21,8 @@
   },
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
+    "no-useless-constructor": "off",
+    "import/no-duplicates": "off",
     "prettier/prettier": "error",
     "class-methods-use-this": "off",
     "@typescript-eslint/camelcase": "off",

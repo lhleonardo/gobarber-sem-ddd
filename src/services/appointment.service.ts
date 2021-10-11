@@ -1,20 +1,19 @@
 import AppError from '@errors/AppError';
-import Appointment from '@models/Appointment';
 import ICacheProvider from '@providers/cache/ICacheProvider';
 import IAppointmentRepository from '@repositories/IAppointmentRepository';
 import INotificationsRepository from '@repositories/INotificationsRepository';
-import { format, getHours, isBefore, startOfHour } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 import { inject, injectable } from 'tsyringe';
 
-interface IRequest {
-  providerId: string;
-  date: Date;
-  userId: string;
-}
+import { format, getHours, isBefore, startOfHour } from 'date-fns';
+
+import { ptBR } from 'date-fns/locale';
+import ICreateAppointmentDTO from '@repositories/dtos/ICreateAppointmentDTO';
+import Appointment from '@models/Appointment';
+import IFindAllAppointmentInDay from '@repositories/dtos/IFindAllAppointmentInDay';
+import { classToClass } from 'class-transformer';
 
 @injectable()
-export default class CreateAppointmentService {
+class AppointmentService {
   constructor(
     @inject('AppointmentRepository')
     private appointmentRepository: IAppointmentRepository,
@@ -24,13 +23,13 @@ export default class CreateAppointmentService {
 
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
-  ) { }
+  ) {}
 
-  public async execute({
+  public async create({
     providerId,
     date,
     userId,
-  }: IRequest): Promise<Appointment> {
+  }: ICreateAppointmentDTO): Promise<Appointment> {
     const parsedDate = startOfHour(date);
 
     if (isBefore(parsedDate, Date.now())) {
@@ -72,4 +71,34 @@ export default class CreateAppointmentService {
 
     return appointment;
   }
+
+  public async find({
+    providerId,
+    day,
+    month,
+    year,
+  }: IFindAllAppointmentInDay): Promise<Appointment[]> {
+    const cacheKey = `provider-appointments:${providerId}:${year}-${month}-${day}`;
+
+    let appointments = await this.cacheProvider.recovery<Appointment[]>(
+      cacheKey,
+    );
+
+    if (!appointments) {
+      appointments = classToClass(
+        await this.appointmentRepository.findAllInDay({
+          providerId,
+          day,
+          month,
+          year,
+        }),
+      );
+
+      await this.cacheProvider.save(cacheKey, appointments);
+    }
+
+    return appointments;
+  }
 }
+
+export default AppointmentService;

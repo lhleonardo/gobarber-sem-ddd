@@ -4,20 +4,22 @@ import IStorageProvider from '@providers/storage/IStorageProvider';
 import IUserRepository from '@repositories/IUserRepository';
 import { inject, injectable } from 'tsyringe';
 
-
-interface IRequest {
+type IUpdateAvatarDTO = {
   userId: string;
   avatarFilename: string;
-}
+};
 
 @injectable()
-export default class UpdateUserAvatarService {
+export default class AvatarService {
   constructor(
     @inject('UserRepository') private userRepository: IUserRepository,
     @inject('StorageProvider') private storage: IStorageProvider,
-  ) { }
+  ) {}
 
-  public async execute({ userId, avatarFilename }: IRequest): Promise<User> {
+  public async updateAvatar({
+    userId,
+    avatarFilename,
+  }: IUpdateAvatarDTO): Promise<User> {
     const user = await this.userRepository.findById(userId);
 
     if (!user) {

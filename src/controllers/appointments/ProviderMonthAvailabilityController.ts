@@ -1,4 +1,5 @@
 import ListProviderMonthAvailabilityService from '@services/ListProviderMonthAvailabilityService';
+import ProviderService from '@services/provider.service';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -7,9 +8,9 @@ class ProviderMonthAvailabilityController {
     const { providerId } = request.params;
     const { year, month } = request.query;
 
-    const service = container.resolve(ListProviderMonthAvailabilityService);
+    const service = container.resolve(ProviderService);
 
-    const availability = await service.execute({
+    const availability = await service.findByMonthAvailability({
       providerId,
       month: Number(month),
       year: Number(year),
